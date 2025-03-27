@@ -24,13 +24,10 @@ jobs:
     - name: Run Unit Tests
       run: npm test
 
-    - name: Run Integration Tests
-      run: npm run test:integration
-
     - name: Build Docker Image
       run: docker build -t my-html-app .
 
-    - name: Stop and Remove Old Container
+    - name: Stop and Remove Old Container (if running)
       run: |
         docker stop my-html-container || true
         docker rm my-html-container || true
@@ -39,9 +36,13 @@ jobs:
       run: docker run -d -p 8080:80 --name my-html-container my-html-app
 
     - name: Wait for Container to Initialize
-      run: sleep 15
+      run: sleep 15  # Ensures Nginx is fully started before testing
 
-    - name: Check Running Containers
-      run: |
-        docker ps -a
-        docker logs my-html-container || true
+    - name: Verify Container Status
+      run: docker ps -a
+
+    - name: Check Container Logs (Optional)
+      run: docker logs my-html-container || true
+
+    - name: Run Integration Tests
+      run: npm run test:integration  # Run tests AFTER the container starts
