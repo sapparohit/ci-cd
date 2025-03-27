@@ -1,8 +1,0 @@
-on:
-   push:
-     branches:
-       - main  # This triggers the workflow on push to main branch
-       - staging  # This triggers the workflow on push to main branch
- 
- jobs:
-   deploy:
