@@ -3,7 +3,7 @@ name: Deploy to AWS EC2
 on:
   push:
     branches:
-      - staging  # This triggers the workflow on push to main branch
+      - main  # This triggers the workflow on push to main branch
 
 jobs:
   deploy:
