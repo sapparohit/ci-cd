@@ -25,24 +25,24 @@ jobs:
       run: npm test
 
     - name: Build Docker Image
-      run: docker build -t my-html-app .
+      run: sudo docker build -t my-html-app .
 
     - name: Stop and Remove Old Container (if running)
       run: |
-        docker stop my-html-container || true
-        docker rm my-html-container || true
+        sudo docker stop my-html-container || true
+        sudo docker rm my-html-container || true
 
     - name: Run New Container
-      run: docker run -d -p 8080:80 --name my-html-container my-html-app
+      run: sudo docker run -d -p 8080:80 --name my-html-container my-html-app
 
     - name: Wait for Container to Initialize
       run: sleep 15  # Ensures Nginx is fully started before testing
 
     - name: Verify Container Status
-      run: docker ps -a
+      run: sudo docker ps -a
 
     - name: Check Container Logs (Optional)
-      run: docker logs my-html-container || true
+      run: sudo docker logs my-html-container || true
 
     - name: Run Integration Tests
       run: npm run test:integration  # Run tests AFTER the container starts
